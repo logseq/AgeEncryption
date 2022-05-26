@@ -1,0 +1,12 @@
+[package]
+name = "age-encryption"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "age"
+crate-type = ["staticlib"]
+
+[dependencies]
+age = { version = "0.8.0", features = ["armor"] }
+secrecy = "0.8.0"
