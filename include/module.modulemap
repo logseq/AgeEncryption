@@ -1,0 +1,4 @@
+module MathWiz {
+    header "age-encryption.h"
+    export *
+}
