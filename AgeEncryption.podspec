@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name         = "AgeEncryption"
-    s.version      = "1.0.3"
+    s.version      = "1.0.4"
     s.summary      = "Age-encryption sys library"
     s.description  = <<-DESC
     Age-encryption, in Rust, for Swift.
@@ -8,6 +8,7 @@ Pod::Spec.new do |s|
     s.homepage     = "https://github.com/andelf/AgeEncryption"
     s.license = { :type => 'Copyright', :text => <<-LICENSE
                   Copyright 2022, Andelf
+                  https://opensource.org/licenses/MIT
                   LICENSE
                 }
     s.author       = { "Andelf" => "andelf@gmail.com" }
