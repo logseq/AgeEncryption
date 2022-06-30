@@ -15,10 +15,10 @@ lipo -create ./target/x86_64-apple-ios/release/libage.a \
     ./target/aarch64-apple-ios-sim/release/libage.a \
     -output libage_iossimulator.a
 
-lipo -create \
-  ./target/x86_64-apple-ios-macabi/release/libage.a \
-  ./target/aarch64-apple-ios-macabi/release/libage.a \
-  -output libage_maccatalyst.a
+#lipo -create \
+#  ./target/x86_64-apple-ios-macabi/release/libage.a \
+#  ./target/aarch64-apple-ios-macabi/release/libage.a \
+#  -output libage_maccatalyst.a
 
 xcodebuild -create-xcframework \
   -library ./libage_iossimulator.a \
