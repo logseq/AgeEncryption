@@ -10,3 +10,4 @@ crate-type = ["staticlib"]
 [dependencies]
 age = { version = "0.8.0", features = ["armor"] }
 secrecy = "0.8.0"
+x25519-dalek = "1"

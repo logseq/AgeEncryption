@@ -2,8 +2,7 @@
 
 set -ex
 
-
-rm -rvf AgeEncryption.xcframework
+rm -rvf AgeEncryption.xcframework AgeEncryption.xcframework.zip
 
 # iOS
 cargo build --release --target aarch64-apple-ios
@@ -16,14 +15,20 @@ lipo -create ./target/x86_64-apple-ios/release/libage.a \
     ./target/aarch64-apple-ios-sim/release/libage.a \
     -output libage_iossimulator.a
 
+lipo -create \
+  ./target/x86_64-apple-ios-macabi/release/libage.a \
+  ./target/aarch64-apple-ios-macabi/release/libage.a \
+  -output libage_maccatalyst.a
 
 xcodebuild -create-xcframework \
+  -library ./libage_iossimulator.a \
+  -headers ./include/ \
   -library ./target/aarch64-apple-ios/release/libage.a \
   -headers ./include/ \
   -output AgeEncryption.xcframework
 
-#  -library ./libage_iossimulator.a \
-#  -headers ./include/ \
+
+zip -r AgeEncryption.xcframework.zip AgeEncryption.xcframework
 
 
 # FIXME: seems Cocoapods cannot handle this.

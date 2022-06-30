@@ -6,6 +6,7 @@ use age::{
     x25519, Decryptor, Encryptor,
 };
 use secrecy::{ExposeSecret, Secret};
+use std::mem;
 use std::os::raw::c_char;
 use std::slice;
 use std::{
@@ -48,6 +49,35 @@ pub extern "C" fn rust_age_encryption_keygen(
             .unwrap()
             .into_raw();
         *public_key_p = CString::new(public.to_string()).unwrap().into_raw();
+    }
+}
+
+// use rust_age_encryption_free_vec to free
+#[no_mangle]
+pub extern "C" fn rust_age_encryption_to_raw_x25519_key(
+    secret_key: *const c_char,
+    raw_secret_key_p: *mut *mut c_char,
+) -> c_int {
+    use x25519_dalek::StaticSecret;
+
+    let identity: x25519::Identity = match unsafe { CStr::from_ptr(secret_key) }
+        .to_str()
+        .ok()
+        .and_then(|k| k.parse().ok())
+    {
+        Some(identity) => identity,
+        _ => return -1,
+    };
+
+    let secret: &StaticSecret = unsafe { mem::transmute(&identity) };
+    let secret_raw: [u8; 32] = secret.to_bytes();
+
+    let mut output_secret = secret_raw.to_vec();
+    output_secret.shrink_to_fit();
+    unsafe {
+        let (raw, len, _cap) = output_secret.into_raw_parts();
+        *raw_secret_key_p = raw as *mut c_char;
+        len as c_int
     }
 }
 
@@ -240,6 +270,11 @@ mod tests {
         }
         assert!(!skey.is_null());
         assert!(!pkey.is_null());
+
+        let mut output = ptr::null_mut();
+        rust_age_encryption_to_raw_x25519_key(skey, &mut output);
+        assert!(!output.is_null());
+
         rust_age_encryption_free_str(skey);
         rust_age_encryption_free_str(pkey);
     }
