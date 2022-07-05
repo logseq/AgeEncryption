@@ -8,6 +8,9 @@ void rust_age_encryption_free_vec(char *buf, int len);
 
 void rust_age_encryption_keygen(char **secret_key, char **public_key);
 
+int rust_age_encryption_to_raw_x25519_key(const char *secret_key, char **raw_key);
+
+
 int rust_age_encrypt_with_x25519(const char *public_key, const char *plaintext,
                                  int len, char armor, char **ciphertext);
 int rust_age_decrypt_with_x25519(const char *secret_key, const char *ciphertext,

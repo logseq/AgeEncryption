@@ -21,9 +21,9 @@ lipo -create ./target/x86_64-apple-ios/release/libage.a \
 #  -output libage_maccatalyst.a
 
 xcodebuild -create-xcframework \
-  -library ./libage_iossimulator.a \
-  -headers ./include/ \
   -library ./target/aarch64-apple-ios/release/libage.a \
+  -headers ./include/ \
+  -library ./libage_iossimulator.a \
   -headers ./include/ \
   -output AgeEncryption.xcframework
 
