@@ -13,7 +13,7 @@ cargo build --release --target aarch64-apple-ios-sim
 
 lipo -create ./target/x86_64-apple-ios/release/libage.a \
     ./target/aarch64-apple-ios-sim/release/libage.a \
-    -output libage_iossimulator.a
+    -output libage.a
 
 #lipo -create \
 #  ./target/x86_64-apple-ios-macabi/release/libage.a \
@@ -23,7 +23,7 @@ lipo -create ./target/x86_64-apple-ios/release/libage.a \
 xcodebuild -create-xcframework \
   -library ./target/aarch64-apple-ios/release/libage.a \
   -headers ./include/ \
-  -library ./libage_iossimulator.a \
+  -library ./libage.a \
   -headers ./include/ \
   -output AgeEncryption.xcframework
 
